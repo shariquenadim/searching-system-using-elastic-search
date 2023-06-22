@@ -1,0 +1,46 @@
+<div class="container">
+  <h1 class="search-heading">Search Smart Cities of India</h1>
+  <div class="search-container">
+    <div class="search-wrapper" [ngClass]="{ 'rounded': isSuggestionListActive }">
+      <input type="text" class="search-bar" placeholder="Search smart cities of India..." [(ngModel)]="query"
+        (input)="searchCities(); toggleButtonVisibility()" #searchInput />
+      <div class="suggestion-list" *ngIf="isSuggestionListActive">
+        <mat-list>
+          <mat-list-item *ngFor="let city of recommendations" class="list-item" (click)="selectCity(city.name, city.state)">
+            <i class="material-icons city-icon">location_city</i>
+            {{ city.name }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div class="btn-go">
+      <button class="go-button" *ngIf="selectedCity" (click)="openCityDetailsPopup()" [ngClass]="{ 'hidden': isButtonHidden }">{{ selectedCity }}</button>
+    </div>
+  </div>
+</div>
+
+<!-- City Details Popup -->
+<div class="city-details-popup" *ngIf="isCityDetailsPopupOpen">
+  <div class="popup-content">
+    <div class="popup-heading">{{ selectedCity }}</div>
+    <h2>{{ selectedState }}</h2>
+    <div class="popup-info">
+      <div class="info-item">
+        <div class="info-label">Population:</div>
+        <div class="info-value">{{ cityPopulation }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Latitude:</div>
+        <div class="info-value">{{ cityLatitude }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Longitude:</div>
+        <div class="info-value">{{ cityLongitude }}</div>
+      </div>
+    </div>
+    <div class="popup-actions">
+      <button class="action-button" (click)="openMap()">Map</button>
+      <button class="action-button" (click)="closeCityDetailsPopup()">Close</button>
+    </div>
+  </div>
+</div>
